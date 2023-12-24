@@ -2,7 +2,7 @@ import CZ3
 
 public extension Z3Context {
     // MARK: - Numeral creation and extraction
-    
+
     /// Create a numeral of a given sort.
     ///
     /// - seealso: `makeInteger()`
@@ -20,7 +20,7 @@ public extension Z3Context {
             sort: sort.getSort(self)
         ).unsafeCastTo()
     }
-    
+
     /// Create a numeral of a given sort.
     ///
     /// - seealso: `makeInteger()`
@@ -43,12 +43,24 @@ public extension Z3Context {
     ///
     /// - Parameter num: numerator of rational.
     /// - Parameter den: denominator of rational.
+    /// - seealso: `makeReal(_:)`
     /// - seealso: `makeNumeral`
     /// - seealso: `makeInteger`
     /// - seealso: `makeUnsignedInteger`
     /// - precondition: `den != 0`
     func makeReal(_ num: Int32, _ den: Int32 = 1) -> Z3Real {
         return Z3Real(context: self, ast: Z3_mk_real(context, num, den))
+    }
+
+    /// Create a real from a 64-bit integer.
+    ///
+    /// - Parameter num: numerator of rational.
+    /// - seealso: `makeReal(_:_:)`
+    /// - seealso: `makeNumeral`
+    /// - seealso: `makeInteger`
+    /// - seealso: `makeUnsignedInteger`
+    func makeReal(_ num: Int64) -> Z3Real {
+        return Z3Real(context: self, ast: Z3_mk_int2real(context, Z3_mk_int64(context, num, Z3Int.getSort(self).sort)))
     }
 
     /// Create a numeral of an int, bit-vector, or finite-domain sort.
@@ -197,7 +209,7 @@ public extension Z3Context {
             ast: Z3_mk_unsigned_int64(context, value, Z3BitVectorU64.getSort(self).sort)
         )
     }
-    
+
     /// Create a numeral of a bit-vector.
     ///
     /// This method can be used to create numerals that fit in a 128-bit integer.
