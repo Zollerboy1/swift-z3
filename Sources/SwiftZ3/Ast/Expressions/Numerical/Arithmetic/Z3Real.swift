@@ -10,7 +10,7 @@ public extension Z3Real {
     }
 }
 
-extension Z3Real {
+public extension Z3Real {
     // MARK: - Constants Casting
 
     static func == (lhs: Z3Real, rhs: Int32) -> Z3Bool {
