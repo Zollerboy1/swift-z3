@@ -14,7 +14,6 @@ let package = Package(
         ),
         .library(
             name: "CZ3",
-            type: .dynamic,
             targets: ["CZ3"]
         ),
         .executable(
@@ -23,20 +22,11 @@ let package = Package(
         ),
     ],
     targets: [
-        .target(
+        .systemLibrary(
             name: "CZ3",
-            dependencies: [],
-            cSettings: [
-                .headerSearchPath("./"),
-                .define("_MP_INTERNAL"),
-            ],
-            cxxSettings: [
-                .headerSearchPath("./"),
-                .define("_MP_INTERNAL"),
-            ],
-            linkerSettings: [
-                .linkedLibrary("m", .when(platforms: [.linux])),
-                .linkedLibrary("pthread", .when(platforms: [.linux])),
+            providers: [
+                .brew(["z3"]),
+                .apt(["libz3-dev"])
             ]
         ),
         .target(
@@ -52,5 +42,6 @@ let package = Package(
             dependencies: ["SwiftZ3", "CZ3"]
         ),
     ],
+    cLanguageStandard: .c99,
     cxxLanguageStandard: .cxx17
 )

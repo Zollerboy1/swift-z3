@@ -1,0 +1,4 @@
+module CZ3 [system] {
+    umbrella header "cz3.h"
+    link "z3"
+}
